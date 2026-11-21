@@ -23,7 +23,7 @@ export function generateReachabilityGraph(net, maxStates = 150) {
   const { places, transitions } = net;
 
   if (places.length === 0) {
-    return { nodes: [], edges: [], stateCount: 0, isBounded: true };
+    return { nodes: [], edges: [], stateCount: 0, isComplete: true, stateLimit: maxStates };
   }
 
   const { pre, post, m0 } = toMatrices(net);
@@ -43,11 +43,11 @@ export function generateReachabilityGraph(net, maxStates = 150) {
   });
   queue.push({ id: 'S0', marking: [...m0] });
 
-  let isBounded = true;
+  let isComplete = true;
 
   while (queue.length > 0) {
     if (nodes.length >= maxStates) {
-      isBounded = false;
+      isComplete = false;
       break;
     }
 
@@ -88,6 +88,7 @@ export function generateReachabilityGraph(net, maxStates = 150) {
     nodes,
     edges,
     stateCount: nodes.length,
-    isBounded,
+    isComplete,
+    stateLimit: maxStates,
   };
 }

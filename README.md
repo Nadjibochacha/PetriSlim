@@ -33,6 +33,12 @@ Supports both **step-by-step execution** (with rule logs) and **automatic full r
 | **5** | **Fusion of Series Places** (*Fusion de Places en Série*) | Merges two sequential places $p_1 \to t_1 \to p_2$ connected by a strict intermediate transition into a single place $p_{12}$. | 
 | **6** | **Identity Place** (*Place Identité*) | Removes self-looped places attached to a transition that do not alter or restrict system behavior. | 
 
+### 4. PetriSlim JSON Projects
+
+* Create a new empty net, open a PetriSlim `.json` project, or download the current net as JSON.
+* Project files preserve places, transitions, initial tokens, arc weights, node positions, and arc curves.
+* Invalid or unsupported project versions are rejected with an error; built-in presets remain available.
+
 ## Tech Stack
 
 * **Frontend Framework:** React.js (with Vite)
@@ -98,13 +104,17 @@ petrislim/
 
 ## Usage Workflow
 
-1. **Build a Net:** Draw places, transitions, and arcs on the canvas, or switch to the **Matrix View** to input $Pre$, $Post$, and $M_0$ directly (or load a built-in preset).
+1. **Create or Open a Net:** Use the **File** menu to create a blank net or open a PetriSlim JSON project. Built-in presets are also available.
 
-2. **Analyze States:** Click **Generate Reachability Graph** to inspect all reachable markings from $M_0$.
+2. **Build a Net:** Draw places, transitions, and arcs on the canvas, or switch to the **Matrix View** to input $Pre$, $Post$, and $M_0$ directly.
 
-3. **Apply Reductions:** Use **Step Reduce** to observe individual reduction rules in action, or **Reduce All** to simplify the model completely.
+3. **Save a Net:** Use **File → Save JSON** to download the current project.
 
-4. **Compare Results:** Re-generate the reachability graph on the reduced net to compare the number of states, places, and transitions.
+4. **Analyze States:** Click **Generate Reachability Graph** to inspect all reachable markings from $M_0$.
+
+5. **Apply Reductions:** Use **Step Reduce** to observe individual reduction rules in action, or **Reduce All** to simplify the model completely.
+
+6. **Compare Results:** Re-generate the reachability graph on the reduced net to compare the number of states, places, and transitions.
 
 ## License
 
