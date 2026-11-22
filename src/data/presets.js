@@ -1,26 +1,28 @@
 export const PRESET_NETS = [
   {
     id: 'demo-all-rules',
-    name: 'Démo Complète (Les 6 Règles)',
+    name: 'Demo All Rules (6 rules)',
     description: 'Réseau conçu pour déclencher successivement les 6 techniques de réduction.',
     net: {
       places: [
-        { id: 'p1', label: 'P1', tokens: 1, x: 100, y: 200 },
+        { id: 'p1', label: 'P1', tokens: 2, x: 100, y: 200 },
         { id: 'p2', label: 'P2', tokens: 0, x: 300, y: 120 },
-        { id: 'p3', label: 'P3', tokens: 0, x: 300, y: 280 }, // Identical to P2 (Rule 2)
-        { id: 'p4', label: 'P4', tokens: 0, x: 500, y: 200 }, // Substitutable place (Rule 1)
-        { id: 'p5', label: 'P5', tokens: 0, x: 700, y: 200 }, // Series with P6 (Rule 5)
-        { id: 'p6', label: 'P6', tokens: 1, x: 900, y: 200 },
-        { id: 'p7', label: 'P7', tokens: 1, x: 100, y: 60 },  // Identity Place self-loop (Rule 6)
+        { id: 'p3', label: 'P3', tokens: 0, x: 300, y: 280 }, // Rule 2: Identical to P2
+        { id: 'p4', label: 'P4', tokens: 0, x: 500, y: 200 }, // Rule 1: Substitutable place
+        { id: 'p5', label: 'P5', tokens: 1, x: 700, y: 200 }, // Rule 5: Series with P6
+        { id: 'p6', label: 'P6', tokens: 0, x: 900, y: 200 },
+        { id: 'p7', label: 'P7', tokens: 2, x: 100, y: 60 },  // Rule 6: Identity Place
       ],
       transitions: [
         { id: 't1', label: 'T1', x: 200, y: 200 },
         { id: 't2', label: 'T2', x: 400, y: 140 },
-        { id: 't3', label: 'T3', x: 400, y: 260 }, // Identical to T2 (Rule 4)
+        { id: 't3', label: 'T3', x: 400, y: 260 }, // Rule 4: Identical to T2
         { id: 't4', label: 'T4', x: 600, y: 200 },
-        { id: 't5', label: 'T5', x: 800, y: 200 }, // Strict series transition (Rule 5)
-        { id: 't6', label: 'T6', x: 500, y: 360 }, // Return loop to P1
-        { id: 't7', label: 'T7', x: 900, y: 60 },  // Identity Transition self-loop (Rule 3)
+        { id: 't5', label: 'T5', x: 800, y: 200 }, // Rule 5: Strict series transition
+        { id: 't6', label: 'T6', x: 500, y: 360 }, // Return arc P6 -> P1
+        { id: 't7', label: 'T7', x: 900, y: 60 },  // Rule 3: Identity Transition
+        { id: 't8', label: 'T8', x: 500, y: 440 }, // Weighted choice branch (keeps final net active)
+        { id: 't9', label: 'T9', x: 500, y: 520 }, // Weighted return branch (keeps final net active)
       ],
       arcs: [
         // Rule 6: P7 self-loop on T1
@@ -50,15 +52,19 @@ export const PRESET_NETS = [
         { id: 'a16', source: 'p6', target: 't7', weight: 1 },
         { id: 'a17', source: 't7', target: 'p6', weight: 1 },
 
-        // Cycle back: P6 -> T6 -> P1
+        // Cycle & weighted branches between P1 and P6
         { id: 'a18', source: 'p6', target: 't6', weight: 1 },
         { id: 'a19', source: 't6', target: 'p1', weight: 1 },
+        { id: 'a20', source: 'p1', target: 't8', weight: 2 },
+        { id: 'a21', source: 't8', target: 'p6', weight: 2 },
+        { id: 'a22', source: 'p6', target: 't9', weight: 2 },
+        { id: 'a23', source: 't9', target: 'p1', weight: 2 },
       ],
     },
   },
   {
     id: 'producer-consumer',
-    name: 'Producteur / Consommateur',
+    name: 'Producer / Consumer',
     description: 'Illustre la réduction de l’explosion combinatoire des états.',
     net: {
       places: [
@@ -88,7 +94,7 @@ export const PRESET_NETS = [
   },
   {
     id: 'identity-loops',
-    name: 'Boucles Identités (Règles 3 & 6)',
+    name: 'Identity loops (Rules 3 & 6)',
     description: 'Teste la suppression d’une transition neutre et d’une place auto-bouclée.',
     net: {
       places: [
